@@ -30,6 +30,8 @@ public class CensusAnalyser
         {
             ICVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaCensusCSV> csvFileIterator=csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
+            Iterable<IndiaCensusCSV> censusCSVIterable = () -> csvFileIterator;
+            StreamSupport.stream(censusCSVIterable.spliterator(), false).forEach(censusCSV -> censusList.add(new IndiaCensusDAO(censusCSV)));
             while (csvFileIterator.hasNext())
             {
                 this.censusList.add(new IndiaCensusDAO(csvFileIterator.next()));
