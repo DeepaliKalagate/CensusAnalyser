@@ -77,6 +77,21 @@ public class CensusAnalyserTest
     }
 
     @Test
+    public void givenIndiaStateCensusData_WithIncorrectOrMissing_ShouldThrowException()
+    {
+        try
+        {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            censusAnalyser.loadIndiaCensusData(WRONG_CENSUS_CSV_FILE_TYPE);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
+        }
+    }
+
+    @Test
     public void givenIndianStateCSV_ShouldReturnExactCount()
     {
         try
