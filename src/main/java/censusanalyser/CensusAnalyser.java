@@ -24,9 +24,9 @@ public class CensusAnalyser
         this.censusStateMap = new HashMap<>();
         this.fieldNameComparatorMap=new HashedMap();
         this.fieldNameComparatorMap.put(StateCensusFieldName.State,Comparator.comparing(censusField->censusField.state));
-        this.fieldNameComparatorMap.put(StateCensusFieldName.Population,Comparator.comparing(censusField->censusField.population));
-        this.fieldNameComparatorMap.put(StateCensusFieldName.DensityPerSqKm,Comparator.comparing(censusField->censusField.densityInSqKm));
-        this.fieldNameComparatorMap.put(StateCensusFieldName.AreaInSqKm,Comparator.comparing(censusField->censusField.areaInSqKm));
+        this.fieldNameComparatorMap.put(StateCensusFieldName.Population,Comparator.comparing(censusField->censusField.population,Comparator.reverseOrder()));
+        this.fieldNameComparatorMap.put(StateCensusFieldName.DensityPerSqKm,Comparator.comparing(censusField->censusField.densityInSqKm,Comparator.reverseOrder()));
+        this.fieldNameComparatorMap.put(StateCensusFieldName.AreaInSqKm,Comparator.comparing(censusField->censusField.areaInSqKm,Comparator.reverseOrder()));
     }
 
     public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderException
