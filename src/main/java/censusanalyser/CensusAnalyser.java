@@ -34,11 +34,13 @@ public class CensusAnalyser {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
             ICVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-
-            /*while (csvFileIterator.hasNext())
+            Iterator<IndiaCensusCSV> csvFileIterator=csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
+            Iterable<IndiaCensusCSV> censusCSVIterable = () -> csvFileIterator;
+            StreamSupport.stream(censusCSVIterable.spliterator(), false).forEach(censusCSV -> censusList.add(new IndiaCensusDAO(censusCSV)));
+            while (csvFileIterator.hasNext())
             {
                 this.censusList.add(new IndiaCensusDAO(csvFileIterator.next()));
-            }*/
+            }
             return censusList.size();
         }
         catch (IOException e)
