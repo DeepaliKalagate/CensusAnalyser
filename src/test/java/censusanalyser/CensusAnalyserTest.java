@@ -11,6 +11,7 @@ public class CensusAnalyserTest
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "/home/admin1/Desktop/CensusAnalyser/src/test/resources/StateCensusData.csv";
     private static final String WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     private static final String INDIA_STATE_CSV_FILE_PATH="/home/admin1/Desktop/CensusAnalyser/src/test/resources/IndiaStateCode.csv";
+    private static final String WRONG_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
 
     CensusAnalyser censusAnalyser = new CensusAnalyser();
 
@@ -50,7 +51,6 @@ public class CensusAnalyserTest
         {
             int numOfRecords=censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             censusAnalyser.loadIndianStateCode(INDIA_STATE_CSV_FILE_PATH);
-
             Assert.assertEquals(29,numOfRecords);
         }
         catch (CSVBuilderException e)
@@ -86,6 +86,20 @@ public class CensusAnalyserTest
         {
             e.printStackTrace();
         }
+    }
 
+    @Test
+    public void givenIndiaStateCodeData_WithWrongFile_ShouldThrowException()
+    {
+        try
+        {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            censusAnalyser.loadIndianStateCode(WRONG_STATE_CSV_FILE_PATH);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM,e.type);
+        }
     }
 }
