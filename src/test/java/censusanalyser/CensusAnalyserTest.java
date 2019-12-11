@@ -213,4 +213,19 @@ public class CensusAnalyserTest
         }
     }
 
+    @Test
+    public void givenIndianCensusData_WhenSortedOnAreaInSqKm_ShouldReturnSortedResult()
+    {
+        try
+        {
+            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.genericSortMethod(StateCensusFieldName.AreaInSqKm);
+            IndiaCensusCSV[] censusCSVS=new Gson().fromJson(sortedCensusData,IndiaCensusCSV[].class);
+            Assert.assertEquals("Rajsthan",censusCSVS[0].state);
+        }
+        catch (CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
