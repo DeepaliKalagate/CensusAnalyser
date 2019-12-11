@@ -14,9 +14,6 @@ import java.util.stream.StreamSupport;
 
 public class CensusAnalyser
 {
-    private static final String filePath = "/home/admin1/Desktop/CensusAnalyser/src/test/resources/IndiaStateCensusData.csv";
-    private static final String NEW_LINE_SEPARATOR = "\n";
-
     Map<String,IndiaCensusDAO> censusStateMap = null;
 
     public CensusAnalyser()
@@ -44,31 +41,26 @@ public class CensusAnalyser
 
     public int loadIndianStateCode(String csvFilePath) throws CSVBuilderException
     {
+        int counter=0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
             ICVBuilder icvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaStateCode> stateCodeIterator=icvBuilder.getCSVFileIterator(reader,IndiaStateCode.class);
             while (stateCodeIterator.hasNext())
             {
+                counter++;
                 IndiaStateCode stateCsv = stateCodeIterator.next();
                 IndiaCensusDAO censusDAO=censusStateMap.get(stateCsv.stateName);
                 if (censusDAO==null) continue;
                 censusDAO.stateCode=stateCsv.stateCode;
             }
-            return censusStateMap.size();
+            return counter;
         }
         catch (IOException | CSVBuilderException e)
         {
             throw new CSVBuilderException(e.getMessage(),
-                    CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
+                    CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM);
         }
-    }
-
-    private <E> int getCount(Iterator<E> iterator)
-    {
-        Iterable<E> csvIterable = () -> iterator;
-        int namOfEateries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-        return namOfEateries;
     }
 
     public String giveStateWiseSortedCensusData() throws CSVBuilderException
@@ -99,6 +91,4 @@ public class CensusAnalyser
             }
         }
     }
-
-
 }

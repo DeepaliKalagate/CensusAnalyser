@@ -12,7 +12,7 @@ public class CensusAnalyserTest
     private static final String WRONG_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
     private static final String INDIA_STATE_CSV_FILE_PATH="/home/admin1/Desktop/CensusAnalyser/src/test/resources/IndiaStateCode.csv";
     private static final String WRONG_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
-    private static final String WRONG_TATE_CSV_FILE_PATH="/home/admin1/Desktop/CensusAnalyser/src/test/resources/IndiaStateCode.txt";
+    private static final String WRONG_TATE_CSV_FILE_TYPE="/home/admin1/Desktop/CensusAnalyser/src/test/resources/IndiaStateCode.txt";
 
 
     CensusAnalyser censusAnalyser = new CensusAnalyser();
@@ -112,12 +112,28 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndianStateCode(WRONG_TATE_CSV_FILE_PATH);
+            censusAnalyser.loadIndianStateCode(WRONG_TATE_CSV_FILE_TYPE);
         }
         catch (CSVBuilderException e)
         {
             Assert.assertEquals(CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM,e.type);
         }
     }
+
+    @Test
+    public void givenIndiaStateCodeData_WithIncorrectDilimiter_ShouldThrowException()
+    {
+        try
+        {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            censusAnalyser.loadIndianStateCode(WRONG_STATE_CSV_FILE_PATH);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM,e.type);
+        }
+    }
+
 
 }
