@@ -7,7 +7,6 @@ import org.apache.commons.collections.map.HashedMap;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -27,9 +26,9 @@ public class CensusAnalyser
         this.fieldNameComparatorMap.put(StateCensusFieldName.Population,
                                 Comparator.comparing(censusField->censusField.population,Comparator.reverseOrder()));
         this.fieldNameComparatorMap.put(StateCensusFieldName.DensityPerSqKm,
-                                Comparator.comparing(censusField->censusField.densityInSqKm,Comparator.reverseOrder()));
+                                Comparator.comparing(censusField->censusField.populationDensity,Comparator.reverseOrder()));
         this.fieldNameComparatorMap.put(StateCensusFieldName.AreaInSqKm,
-                                Comparator.comparing(censusField->censusField.areaInSqKm,Comparator.reverseOrder()));
+                                Comparator.comparing(censusField->censusField.totalArea,Comparator.reverseOrder()));
     }
 
     public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderException
@@ -69,6 +68,23 @@ public class CensusAnalyser
         }
     }
 
+    public int loadUSCensusData(String csvFilePath) throws CSVBuilderException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
+        {
+            ICVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<USCensusData> csvFileIterator=csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
+            Iterable<USCensusData> censusCSVIterable = () -> csvFileIterator;
+            StreamSupport.stream(censusCSVIterable.spliterator(), false).forEach(censusCSV -> censusStateMap.put(censusCSV.state,new IndiaCensusDAO(censusCSV)));
+
+            return censusStateMap.size();
+        }
+        catch (IOException | RuntimeException | CSVBuilderException e)
+        {
+            throw new CSVBuilderException(e.getMessage(),
+                    CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
+
     public String genericSortMethod(StateCensusFieldName fieldName) throws CSVBuilderException
     {
         if (censusStateMap == null || censusStateMap.size() == 0)
@@ -98,4 +114,6 @@ public class CensusAnalyser
             }
         }
     }
+
+
 }

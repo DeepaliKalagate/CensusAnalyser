@@ -5,14 +5,28 @@ public class IndiaCensusDAO
     public String state;
     public String stateCode;
     public int population;
-    public int densityInSqKm;
-    public int areaInSqKm;
+    public double populationDensity;
+    public double totalArea;
 
     public IndiaCensusDAO(IndiaCensusCSV indiaCensusCSV)
     {
         state = indiaCensusCSV.state;
-        areaInSqKm=indiaCensusCSV.areaInSqKm;
-        densityInSqKm=indiaCensusCSV.densityPerSqKm;
+        totalArea =indiaCensusCSV.areaInSqKm;
+        populationDensity =indiaCensusCSV.densityPerSqKm;
         population=indiaCensusCSV.population;
     }
+
+    public IndiaCensusDAO(USCensusData censusData)
+    {
+        this.state=censusData.state;
+        this.stateCode=censusData.stateCode;
+        this.population=censusData.population;
+        this.populationDensity=censusData.populationDensity;
+        this.totalArea=censusData.totalArea;
+    }
+    public IndiaCensusCSV getIndiaCensusCSV()
+    {
+        return new IndiaCensusCSV(state,population,populationDensity,totalArea);
+    }
+
 }

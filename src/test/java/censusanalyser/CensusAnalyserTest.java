@@ -14,6 +14,7 @@ public class CensusAnalyserTest
     private static final String INDIA_STATE_CSV_FILE_PATH="/home/admin1/Desktop/CensusAnalyser/src/test/resources/IndiaStateCode.csv";
     private static final String WRONG_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
     private static final String WRONG_STATE_CSV_FILE_TYPE="/home/admin1/Desktop/CensusAnalyser/src/test/resources/WrongFile.csv";
+    private static final String US_CENSUS_FILE_PATH = "/home/admin1/Desktop/CensusAnalyser/src/test/resources/USCensusData.csv";
 
     CensusAnalyser censusAnalyser = new CensusAnalyser();
 
@@ -239,6 +240,19 @@ public class CensusAnalyserTest
             Assert.assertEquals("Rajsthan",censusCSVS[0].state);
         }
         catch (CSVBuilderException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusData_ShouldReturnCorrectRecords()
+    {
+        try
+        {
+            int result = censusAnalyser.loadUSCensusData(US_CENSUS_FILE_PATH);
+            Assert.assertEquals(51,result);
+        } catch (CSVBuilderException e)
         {
             e.printStackTrace();
         }
