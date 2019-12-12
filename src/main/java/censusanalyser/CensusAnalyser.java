@@ -24,9 +24,12 @@ public class CensusAnalyser
         this.censusStateMap = new HashMap<>();
         this.fieldNameComparatorMap=new HashedMap();
         this.fieldNameComparatorMap.put(StateCensusFieldName.State,Comparator.comparing(censusField->censusField.state));
-        this.fieldNameComparatorMap.put(StateCensusFieldName.Population,Comparator.comparing(censusField->censusField.population,Comparator.reverseOrder()));
-        this.fieldNameComparatorMap.put(StateCensusFieldName.DensityPerSqKm,Comparator.comparing(censusField->censusField.densityInSqKm,Comparator.reverseOrder()));
-        this.fieldNameComparatorMap.put(StateCensusFieldName.AreaInSqKm,Comparator.comparing(censusField->censusField.areaInSqKm,Comparator.reverseOrder()));
+        this.fieldNameComparatorMap.put(StateCensusFieldName.Population,
+                                Comparator.comparing(censusField->censusField.population,Comparator.reverseOrder()));
+        this.fieldNameComparatorMap.put(StateCensusFieldName.DensityPerSqKm,
+                                Comparator.comparing(censusField->censusField.densityInSqKm,Comparator.reverseOrder()));
+        this.fieldNameComparatorMap.put(StateCensusFieldName.AreaInSqKm,
+                                Comparator.comparing(censusField->censusField.areaInSqKm,Comparator.reverseOrder()));
     }
 
     public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderException
@@ -49,20 +52,15 @@ public class CensusAnalyser
 
     public int loadIndianStateCode(String csvFilePath) throws CSVBuilderException
     {
-        int counter=0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
             ICVBuilder icvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<IndiaStateCode> stateCodeIterator = icvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
-            while (stateCodeIterator.hasNext())
-            {
-                counter++;
-                IndiaStateCode stateCsv = stateCodeIterator.next();
-                IndiaCensusDAO censusDAO = censusStateMap.get(stateCsv.stateName);
-                if (censusDAO == null) continue;
-                censusDAO.stateCode = stateCsv.stateCode;
-            }
-            return counter;
+            Iterable<IndiaStateCode> codeIterable=()->stateCodeIterator;
+            StreamSupport.stream(codeIterable.spliterator(),false)
+                    .filter(csvState->censusStateMap.get(csvState.stateName)!=null)
+                    .forEach(csvState->censusStateMap.get(csvState.stateCode=csvState.stateCode));
+            return censusStateMap.size();
         }
         catch (IOException | CSVBuilderException | RuntimeException e)
         {

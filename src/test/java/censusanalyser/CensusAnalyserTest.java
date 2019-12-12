@@ -92,13 +92,28 @@ public class CensusAnalyserTest
     }
 
     @Test
+    public void givenIndiaStateCensusData_WithEmptyFile_ShouldThrowException()
+    {
+        try
+        {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            censusAnalyser.genericSortMethod(StateCensusFieldName.State);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.NO_CENSUS_DATA,e.type);
+        }
+    }
+
+    @Test
     public void givenIndianStateCSV_ShouldReturnExactCount()
     {
         try
         {
             int numOfRecords=censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
             censusAnalyser.loadIndianStateCode(INDIA_STATE_CSV_FILE_PATH);
-            Assert.assertEquals(37,numOfRecords);
+            Assert.assertEquals(29,numOfRecords);
         }
         catch (CSVBuilderException e)
         {
