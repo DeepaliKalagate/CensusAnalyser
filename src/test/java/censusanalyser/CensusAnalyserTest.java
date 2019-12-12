@@ -23,7 +23,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            int numOfRecords = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            int numOfRecords = censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,INDIA_STATE_CSV_FILE_PATH);
             Assert.assertEquals(29,numOfRecords);
         }
         catch (CSVBuilderException e)
@@ -31,7 +31,6 @@ public class CensusAnalyserTest
 
         }
     }
-
     @Test
     public void givenIndiaCensusData_WithWrongFile_ShouldThrowException()
     {
@@ -39,7 +38,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndiaCensusData(WRONG_CSV_FILE_PATH);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_CSV_FILE_PATH);
         }
         catch (CSVBuilderException e)
         {
@@ -54,7 +53,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndiaCensusData(WRONG_CENSUS_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_CENSUS_CSV_FILE_TYPE);
         }
         catch (CSVBuilderException e)
         {
@@ -69,7 +68,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndiaCensusData(WRONG_CENSUS_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_CENSUS_CSV_FILE_TYPE);
         }
         catch (CSVBuilderException e)
         {
@@ -84,7 +83,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndiaCensusData(WRONG_CENSUS_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_CENSUS_CSV_FILE_TYPE);
         }
         catch (CSVBuilderException e)
         {
@@ -112,8 +111,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            int numOfRecords=censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
-            censusAnalyser.loadIndianStateCode(INDIA_STATE_CSV_FILE_PATH);
+            int numOfRecords=censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,INDIA_CENSUS_CSV_FILE_PATH);
             Assert.assertEquals(29,numOfRecords);
         }
         catch (CSVBuilderException e)
@@ -126,7 +124,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.genericSortMethod(StateCensusFieldName.State);
             IndiaCensusCSV[] censusCSVS=new Gson().fromJson(sortedCensusData,IndiaCensusCSV[].class);
             Assert.assertEquals("Andhra Pradesh",censusCSVS[0].state);
@@ -144,7 +142,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndianStateCode(WRONG_STATE_CSV_FILE_PATH);
+           censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_STATE_CSV_FILE_PATH);
         }
         catch (CSVBuilderException e)
         {
@@ -159,7 +157,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndianStateCode(WRONG_STATE_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_STATE_CSV_FILE_TYPE);
         }
         catch (CSVBuilderException e)
         {
@@ -174,7 +172,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndianStateCode(WRONG_STATE_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_STATE_CSV_FILE_TYPE);
         }
         catch (CSVBuilderException e)
         {
@@ -189,7 +187,7 @@ public class CensusAnalyserTest
         {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.loadIndianStateCode(WRONG_STATE_CSV_FILE_TYPE);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,WRONG_STATE_CSV_FILE_TYPE);
         }
         catch (CSVBuilderException e)
         {
@@ -202,7 +200,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.genericSortMethod(StateCensusFieldName.Population);
             IndiaCensusCSV[] censusCSVS=new Gson().fromJson(sortedCensusData,IndiaCensusCSV[].class);
             Assert.assertEquals("Uttar Pradesh",censusCSVS[0].state);
@@ -218,7 +216,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.genericSortMethod(StateCensusFieldName.DensityPerSqKm);
             IndiaCensusCSV[] censusCSVS=new Gson().fromJson(sortedCensusData,IndiaCensusCSV[].class);
             Assert.assertEquals("Bihar",censusCSVS[0].state);
@@ -234,7 +232,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+            censusAnalyser.loadIndiaCensusData(CensusAnalyser.Country.INDIA,INDIA_CENSUS_CSV_FILE_PATH);
             String sortedCensusData = censusAnalyser.genericSortMethod(StateCensusFieldName.AreaInSqKm);
             IndiaCensusCSV[] censusCSVS=new Gson().fromJson(sortedCensusData,IndiaCensusCSV[].class);
             Assert.assertEquals("Rajsthan",censusCSVS[0].state);
@@ -250,7 +248,7 @@ public class CensusAnalyserTest
     {
         try
         {
-            int result = censusAnalyser.loadUSCensusData(US_CENSUS_FILE_PATH);
+            int result = censusAnalyser.loadUSCensusData(CensusAnalyser.Country.US,US_CENSUS_FILE_PATH);
             Assert.assertEquals(51,result);
         } catch (CSVBuilderException e)
         {

@@ -16,12 +16,21 @@ import java.util.stream.StreamSupport;
 public class CensusLoader
 {
     Map<String, CensusDAO> censusStateMap =new HashedMap();
-    public  <E> Map<String, CensusDAO> loadCensusData(String csvFilePath, Class<E> censusCSVClass) throws CSVBuilderException
+    public Map<String, CensusDAO> loadCensusData(CensusAnalyser.Country country, String... csvFilePath) throws CSVBuilderException
     {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
+        if (country.equals(CensusAnalyser.Country.INDIA))
+            return this.loadCensusData(IndiaCensusCSV.class,csvFilePath);
+        else  if (country.equals(CensusAnalyser.Country.US))
+           return this.loadCensusData(IndiaCensusCSV.class,csvFilePath);
+        else throw new CSVBuilderException("Incorrect Country",CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
+    }
+
+    private  <E> Map<String, CensusDAO> loadCensusData(Class<E> censusCSVClass, String... csvFilePath) throws CSVBuilderException
+    {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]));)
         {
             ICVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<E> csvFileIterator=csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
+            Iterator<E> csvFileIterator=csvBuilder.getCSVFileIterator(reader,censusCSVClass);
             Iterable<E> censusCSVIterable = () -> csvFileIterator;
             if (censusCSVClass.getName().equals("censusAnalyser.IndiaCensusCSV"))
             {
@@ -35,6 +44,8 @@ public class CensusLoader
                         .map(USCensusData.class::cast)
                         .forEach(censusCSV -> censusStateMap.put(censusCSV.state, new CensusDAO(censusCSV)));
             }
+            if(csvFilePath.length==1) return censusStateMap;
+              this.loadIndianStateCode(censusStateMap,csvFilePath[1]);
             return censusStateMap;
         }
         catch (IOException | RuntimeException | CSVBuilderException e)
@@ -43,5 +54,25 @@ public class CensusLoader
                     CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
+
+    private int loadIndianStateCode(Map<String, CensusDAO> censusStateMap, String csvFilePath) throws CSVBuilderException
+    {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
+        {
+            ICVBuilder icvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterator<IndiaStateCode> stateCodeIterator = icvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
+            Iterable<IndiaStateCode> codeIterable=()->stateCodeIterator;
+            StreamSupport.stream(codeIterable.spliterator(),false)
+                    .filter(csvState-> this.censusStateMap.get(csvState.stateName)!=null)
+                    .forEach(csvState-> this.censusStateMap.get(csvState.stateCode=csvState.stateCode));
+            return this.censusStateMap.size();
+        }
+        catch (IOException | CSVBuilderException | RuntimeException e)
+        {
+            throw new CSVBuilderException(e.getMessage(),
+                    CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM);
+        }
+    }
+
 
 }

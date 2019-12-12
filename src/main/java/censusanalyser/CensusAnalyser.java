@@ -1,20 +1,15 @@
 package censusanalyser;
 import com.bridgelabz.CSVBuilderException;
-import com.bridgelabz.CSVBuilderFactory;
-import com.bridgelabz.ICVBuilder;
 import com.google.gson.Gson;
 import org.apache.commons.collections.map.HashedMap;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+
 
 public class CensusAnalyser
 {
+    public enum Country{INDIA,US}
     Map<String, CensusDAO> censusStateMap = null;
     Map<StateCensusFieldName,Comparator<CensusDAO>> fieldNameComparatorMap=null;
 
@@ -30,37 +25,19 @@ public class CensusAnalyser
                                 Comparator.comparing(censusField->censusField.totalArea,Comparator.reverseOrder()));
     }
 
-    public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderException
+    public int loadIndiaCensusData(Country country,String... csvFilePath) throws CSVBuilderException
     {
-         censusStateMap= new CensusLoader().loadCensusData(csvFilePath,IndiaCensusCSV.class);
+         censusStateMap= new CensusLoader().loadCensusData(country,csvFilePath);
         return censusStateMap.size();
     }
 
-    public int loadUSCensusData(String csvFilePath) throws CSVBuilderException
+    public int loadUSCensusData(Country country,String csvFilePath) throws CSVBuilderException
     {
-        censusStateMap=new CensusLoader().loadCensusData(csvFilePath,USCensusData.class);
+        censusStateMap=new CensusLoader().loadCensusData(country,csvFilePath);
         return censusStateMap.size();
     }
 
 
-    public int loadIndianStateCode(String csvFilePath) throws CSVBuilderException
-    {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
-        {
-            ICVBuilder icvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaStateCode> stateCodeIterator = icvBuilder.getCSVFileIterator(reader, IndiaStateCode.class);
-            Iterable<IndiaStateCode> codeIterable=()->stateCodeIterator;
-            StreamSupport.stream(codeIterable.spliterator(),false)
-                    .filter(csvState->censusStateMap.get(csvState.stateName)!=null)
-                    .forEach(csvState->censusStateMap.get(csvState.stateCode=csvState.stateCode));
-            return censusStateMap.size();
-        }
-        catch (IOException | CSVBuilderException | RuntimeException e)
-        {
-            throw new CSVBuilderException(e.getMessage(),
-                    CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM);
-        }
-    }
 
     public String genericSortMethod(StateCensusFieldName fieldName) throws CSVBuilderException
     {
