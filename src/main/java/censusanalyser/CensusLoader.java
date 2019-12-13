@@ -4,7 +4,6 @@ import com.bridgelabz.CSVBuilderException;
 import com.bridgelabz.CSVBuilderFactory;
 import com.bridgelabz.ICVBuilder;
 import org.apache.commons.collections.map.HashedMap;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -73,6 +72,4 @@ public class CensusLoader
                     CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM);
         }
     }
-
-
 }
