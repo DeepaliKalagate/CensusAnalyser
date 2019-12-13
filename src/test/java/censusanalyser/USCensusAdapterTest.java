@@ -15,7 +15,7 @@ public class USCensusAdapterTest
     USCensusAdapter usCensusAdapter = new USCensusAdapter();
 
     @Test
-    public void givenMessage_loadUS_CensusData_ShouldReturn_ExactCount()
+    public void givenUSCensusFile_ShouldReturnExactCount()
     {
         try
         {
@@ -28,7 +28,7 @@ public class USCensusAdapterTest
     }
 
     @Test
-    public void givenMessage_loadUS_CensusData_WhenFilePathIncorrect_ShouldReturn_Exception()
+    public void givenUSCensusFile_WhenFilePathIncorrect_ShouldReturnException()
     {
         USCensusAdapter usCensusAdapter = new USCensusAdapter();
         try
@@ -42,7 +42,7 @@ public class USCensusAdapterTest
     }
 
     @Test
-    public void givenMessage_loadUS_CensusData_WhenFilePathNull_ShouldReturn_Exception()
+    public void givenUSCensusFile_WhenFilePathNull_ShouldReturnException()
     {
         USCensusAdapter usCensusAdapter = new USCensusAdapter();
         try
@@ -56,7 +56,7 @@ public class USCensusAdapterTest
     }
 
     @Test
-    public void givenMessage_loadUS_CensusData_WhenFileHasIncorrectDelimiter_ShouldReturn_Exception()
+    public void givenUSCensusFile_WhenIncorrectDelimiter_ShouldReturnException()
     {
         USCensusAdapter usCensusAdapter = new USCensusAdapter();
         try
