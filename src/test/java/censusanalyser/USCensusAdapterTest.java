@@ -10,7 +10,6 @@ public class USCensusAdapterTest
 {
     private static final String US_CENSUS_DATA_CSV_FILE_PATH = "./src/test/resources/USCensusData.csv";
     private static final String INCORRECT_US_CENSUS_DATA_CSV_FILE_PATH = "./src/test/resources/USCensusData123.csv";
-    private static final String INCORRECT_DELIMITER_US_CENSUS_DATA_CSV_FILE_PATH = "./src/test/resources/IncorrectDelimeterUSCensusData.csv";
 
     USCensusAdapter usCensusAdapter = new USCensusAdapter();
 
@@ -19,7 +18,7 @@ public class USCensusAdapterTest
     {
         try
         {
-            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_DATA_CSV_FILE_PATH);
+            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData(US_CENSUS_DATA_CSV_FILE_PATH);
             Assert.assertEquals(51, censusDAOMap.size());
         }
         catch (CSVBuilderException e)
@@ -33,7 +32,7 @@ public class USCensusAdapterTest
         USCensusAdapter usCensusAdapter = new USCensusAdapter();
         try
         {
-            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData(CensusAnalyser.Country.US,INCORRECT_US_CENSUS_DATA_CSV_FILE_PATH);
+            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData(INCORRECT_US_CENSUS_DATA_CSV_FILE_PATH);
         }
         catch (CSVBuilderException e)
         {
@@ -47,7 +46,7 @@ public class USCensusAdapterTest
         USCensusAdapter usCensusAdapter = new USCensusAdapter();
         try
         {
-            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData(CensusAnalyser.Country.US,"");
+            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData("");
         }
         catch (CSVBuilderException e)
         {
@@ -61,7 +60,20 @@ public class USCensusAdapterTest
         USCensusAdapter usCensusAdapter = new USCensusAdapter();
         try
         {
-            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData(CensusAnalyser.Country.US,INCORRECT_DELIMITER_US_CENSUS_DATA_CSV_FILE_PATH);
+            Map<String, CensusDAO> censusDAOMap = usCensusAdapter.loadCensusData(INCORRECT_US_CENSUS_DATA_CSV_FILE_PATH);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void givenIndianCensusCSVFile_WhenHeaderNotFound_ShouldReturnsException()
+    {
+        try
+        {
+            Map<String,CensusDAO> censusDAOMap=usCensusAdapter.loadCensusData(INCORRECT_US_CENSUS_DATA_CSV_FILE_PATH);
         }
         catch (CSVBuilderException e)
         {

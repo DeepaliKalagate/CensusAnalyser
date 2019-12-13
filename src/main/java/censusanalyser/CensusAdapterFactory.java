@@ -2,18 +2,17 @@ package censusanalyser;
 
 public class CensusAdapterFactory
 {
-    public static  <E extends CensusAdapter> E  getAdapterObject(CensusAnalyser.Country country)
+    public static CensusAdapter getAdapterObject(CensusAnalyser.Country country)
     {
 
         if(country.equals(CensusAnalyser.Country.INDIA))
         {
-            return (E) new IndiaCensusAdapter();
+            return new IndiaCensusAdapter();
         }
         else if(country.equals(CensusAnalyser.Country.US))
         {
-            return (E) new USCensusAdapter();
+            return new USCensusAdapter();
         }
-
         return null;
     }
 
