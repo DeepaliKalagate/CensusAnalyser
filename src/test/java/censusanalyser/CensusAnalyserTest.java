@@ -97,23 +97,6 @@ public class CensusAnalyserTest
     }
 
     @Test
-    public void givenIndiaStateCensusData_WithEmptyFile_ShouldThrowException()
-    {
-        IndiaCensusAdapter indiaCensusAdapter=CensusAdapterFactory.getAdapterObject(CensusAnalyser.Country.INDIA);
-        try
-        {
-            indiaCensusAdapter.loadCensusData(CensusAnalyser.Country.INDIA);
-            ExpectedException exceptionRule = ExpectedException.none();
-            exceptionRule.expect(CSVBuilderException.class);
-            censusAnalyser.genericSortMethod(StateCensusFieldName.State);
-        }
-        catch (CSVBuilderException e)
-        {
-            Assert.assertEquals(CSVBuilderException.ExceptionType.NO_CENSUS_DATA,e.type);
-        }
-    }
-
-    @Test
     public void givenIndianStateCSV_ShouldReturnExactCount()
     {
         IndiaCensusAdapter indiaCensusAdapter=CensusAdapterFactory.getAdapterObject(CensusAnalyser.Country.INDIA);
