@@ -1,5 +1,4 @@
 package censusanalyser;
-
 public class CensusDAO
 {
     public String state;
@@ -28,7 +27,6 @@ public class CensusDAO
         this.areaInSqKm = (int) censusData.totalArea;
         this.stateId=censusData.stateId;
     }
-
 
     public Object getCensusDTO(CensusAnalyser.Country country)
     {

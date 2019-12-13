@@ -1,5 +1,4 @@
 package censusanalyser;
-
 import com.bridgelabz.CSVBuilderException;
 import com.bridgelabz.CSVBuilderFactory;
 import com.bridgelabz.ICVBuilder;

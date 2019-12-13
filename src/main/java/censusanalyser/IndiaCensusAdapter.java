@@ -10,12 +10,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.StreamSupport;
-
 public class IndiaCensusAdapter extends CensusAdapter
 {
     Map<String,CensusDAO> censusDAOMap=new HashMap<>();
-
-
     public int loadIndiaStateCode(Map<String,CensusDAO> censusStateMap,String csvFilePath) throws CSVBuilderException
     {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
@@ -33,7 +30,6 @@ public class IndiaCensusAdapter extends CensusAdapter
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.STATE_CODE_FILE_PROBLEM);
         }
     }
-
 
     @Override
     public Map<String, CensusDAO> loadCensusData(String... csvFilePath) throws CSVBuilderException

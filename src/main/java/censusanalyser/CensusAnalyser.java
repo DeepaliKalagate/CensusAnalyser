@@ -3,22 +3,16 @@ import com.bridgelabz.CSVBuilderException;
 import com.google.gson.Gson;
 import org.apache.commons.collections.map.HashedMap;
 import java.util.*;
-
 import static java.util.stream.Collectors.toCollection;
-
 public class CensusAnalyser
 {
     public enum Country
     {
         INDIA,US
     }
-
     Map<String, CensusDAO> censusMap = new HashMap<>();
     Map<StateCensusFieldName,Comparator<CensusDAO>> fieldNameComparatorMap=null;
-
     Country country;
-
-
     public CensusAnalyser()
     {
         this.fieldNameComparatorMap=new HashedMap();
@@ -30,7 +24,6 @@ public class CensusAnalyser
         this.fieldNameComparatorMap.put(StateCensusFieldName.AreaInSqKm,
                                 Comparator.comparing(censusField->censusField.areaInSqKm,Comparator.reverseOrder()));
     }
-
 
     public int loadCensusData(Country country,String... csvFilePath) throws CSVBuilderException
     {
