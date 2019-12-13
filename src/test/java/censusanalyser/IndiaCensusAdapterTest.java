@@ -22,7 +22,9 @@ public class IndiaCensusAdapterTest
         {
             censusDAOMap = indianCensusAdapter.loadCensusData(INDIA_CENSUS_CSV_FILE_PATH, INDIA_STATE_CODE_CSV_FILE_PATH);
             Assert.assertEquals(29, censusDAOMap.size());
-        } catch (CSVBuilderException e) {
+        }
+        catch (CSVBuilderException e)
+        {
             e.printStackTrace();
         }
     }
@@ -62,6 +64,19 @@ public class IndiaCensusAdapterTest
         } catch (CSVBuilderException e)
         {
             Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void givenIndianCensusCSVFile_WhenIncorrectDelimiter_ShouldReturnsException()
+    {
+        try
+        {
+            indianCensusAdapter.loadCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, e.type);
         }
     }
 }
