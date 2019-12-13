@@ -16,4 +16,8 @@ public class USCensusData
     public double totalArea;
     @CsvBindByName(column = "StateCode", required = true)
     public String stateCode;
+
+    public USCensusData(String state, int population, double densityPerSqKm, double areaInSqKm)
+    {
+    }
 }
