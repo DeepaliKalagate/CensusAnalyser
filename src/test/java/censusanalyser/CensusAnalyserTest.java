@@ -245,7 +245,7 @@ public class CensusAnalyserTest
     @Test
     public void givenUSCensusData_ShouldReturnCorrectRecords()
     {
-        USCensusAdapter usCensusAdapter=CensusAdapterFactory.getAdapterObject(CensusAnalyser.Country.US);
+        CensusAdapter usCensusAdapter=CensusAdapterFactory.getAdapterObject(CensusAnalyser.Country.US);
         try
         {
             Map<String,CensusDAO> result = usCensusAdapter.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_FILE_PATH);
