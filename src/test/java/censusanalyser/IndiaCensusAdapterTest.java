@@ -79,4 +79,17 @@ public class IndiaCensusAdapterTest
             Assert.assertEquals(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, e.type);
         }
     }
+
+    @Test
+    public void givenIndianCensusCSVFile_WhenHeaderNotFound_ShouldReturnsException()
+    {
+        try
+        {
+            indianCensusAdapter.loadCensusData(INDIA_CENSUS_CSV_FILE_PATH);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, e.type);
+        }
+    }
 }
