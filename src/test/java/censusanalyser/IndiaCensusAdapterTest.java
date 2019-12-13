@@ -10,6 +10,7 @@ public class IndiaCensusAdapterTest
 {
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
     private static final String INDIA_STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
+    private static final String WRONG_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode12.csv";
 
     @Test
     public void givenIndianCensusFiles_loadIndianCensusData_ShouldReturn_ExactCount()
@@ -36,6 +37,20 @@ public class IndiaCensusAdapterTest
         catch (CSVBuilderException e)
         {
             Assert.assertEquals(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, e.type);
+        }
+    }
+
+    @Test
+    public void givenIndianCensusCSVFile_WhenIncorrectFilePath_ShouldReturnsException()
+    {
+        try
+        {
+            IndiaCensusAdapter indianCensusAdapter = new IndiaCensusAdapter();
+            indianCensusAdapter.loadCensusData(WRONG_CSV_FILE_PATH);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
     }
 }
