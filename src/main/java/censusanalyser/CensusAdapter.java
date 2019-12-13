@@ -37,10 +37,20 @@ public abstract class CensusAdapter
             }
             return censusMap;
         }
-        catch (IOException | RuntimeException | CSVBuilderException e)
+        catch (IOException e)
         {
             throw new CSVBuilderException(e.getMessage(),
                     CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+        catch (CSVBuilderException e)
+        {
+            throw new CSVBuilderException(e.getMessage(),
+                    CSVBuilderException.ExceptionType.UNABLE_TO_PARSE);
+        }
+        catch (RuntimeException e)
+        {
+            throw new CSVBuilderException(e.getMessage(),
+                    CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
         }
     }
 }
