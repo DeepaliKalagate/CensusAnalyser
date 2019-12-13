@@ -288,6 +288,21 @@ public class CensusAnalyserTest
         }
     }
 
+    @Test
+    public void givenUSCensusData_WhenSortedOnDensity_ShouldReturnSortedResult()
+    {
+        try
+        {
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US,US_CENSUS_FILE_PATH);
+            String sortedCensusData = censusAnalyser.genericSortMethod(StateCensusFieldName.DensityPerSqKm);
+            USCensusData[] censusCSVS=new Gson().fromJson(sortedCensusData,USCensusData[].class);
+            System.out.println(censusCSVS);
+            Assert.assertEquals("District of Columbia",censusCSVS[0].state);
+        }
+        catch (CSVBuilderException e)
+        {
+        }
+    }
 
 
 }
