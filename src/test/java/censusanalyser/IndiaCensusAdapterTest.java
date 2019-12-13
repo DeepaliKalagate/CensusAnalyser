@@ -10,12 +10,13 @@ public class IndiaCensusAdapterTest
 {
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
     private static final String INDIA_STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
-    private static final String WRONG_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode12.csv";
+    private static final String WRONG_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode12.cst";
+
+    IndiaCensusAdapter indianCensusAdapter = new IndiaCensusAdapter();
 
     @Test
     public void givenIndianCensusFiles_loadIndianCensusData_ShouldReturn_ExactCount()
     {
-        IndiaCensusAdapter indianCensusAdapter = new IndiaCensusAdapter();
         Map<String, CensusDAO> censusDAOMap = null;
         try
         {
@@ -29,7 +30,6 @@ public class IndiaCensusAdapterTest
     @Test
     public void givenIndianCensusData_WhenSendOneFilePath_ShouldReturn_Exception()
     {
-        IndiaCensusAdapter indianCensusAdapter = new IndiaCensusAdapter();
         try
         {
             indianCensusAdapter.loadCensusData(INDIA_STATE_CODE_CSV_FILE_PATH);
@@ -45,10 +45,21 @@ public class IndiaCensusAdapterTest
     {
         try
         {
-            IndiaCensusAdapter indianCensusAdapter = new IndiaCensusAdapter();
             indianCensusAdapter.loadCensusData(WRONG_CSV_FILE_PATH);
         }
         catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void givenIndianCensusCSVFile_WhenIncorrectFileType_ShouldReturnsException()
+    {
+        try
+        {
+            indianCensusAdapter.loadCensusData(WRONG_CSV_FILE_PATH);
+        } catch (CSVBuilderException e)
         {
             Assert.assertEquals(CSVBuilderException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
         }
