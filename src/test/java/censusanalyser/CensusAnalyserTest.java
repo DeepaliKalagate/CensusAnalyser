@@ -315,4 +315,19 @@ public class CensusAnalyserTest
             Assert.assertEquals(CSVBuilderException.ExceptionType.UNABLE_TO_PARSE, e.type);
         }
     }
+
+    @Test
+    public void givenUSCensusData_WhenSortedOnPopulationWithDensity_ShouldReturnSortedResult()
+    {
+        try
+        {
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.INDIA,INDIA_CENSUS_CSV_FILE_PATH,INDIA_STATE_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.genericSortMethod(StateCensusFieldName.Result);
+            IndiaCensusCSV[] censusCSVS=new Gson().fromJson(sortedCensusData,IndiaCensusCSV[].class);
+            Assert.assertEquals("West Begal",censusCSVS[censusCSVS.length-1].state);
+        }
+        catch (CSVBuilderException e)
+        {
+        }
+    }
 }

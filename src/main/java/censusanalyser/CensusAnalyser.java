@@ -23,6 +23,11 @@ public class CensusAnalyser
                                 Comparator.comparing(censusField->censusField.densityPerSqKm,Comparator.reverseOrder()));
         this.fieldNameComparatorMap.put(StateCensusFieldName.AreaInSqKm,
                                 Comparator.comparing(censusField->censusField.areaInSqKm,Comparator.reverseOrder()));
+
+        Comparator<CensusDAO> populationValue=Comparator.comparing(field->field.population);
+        Comparator<CensusDAO> densityValue=Comparator.comparing(field->field.densityPerSqKm);
+        Comparator<CensusDAO> result=populationValue.thenComparing(densityValue);
+        this.fieldNameComparatorMap.put(StateCensusFieldName.Result,result);
     }
 
     public int loadCensusData(Country country,String... csvFilePath) throws CSVBuilderException
