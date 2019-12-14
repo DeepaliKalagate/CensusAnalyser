@@ -3,15 +3,12 @@ import com.bridgelabz.CSVBuilderException;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.Map;
-
 public class IndiaCensusAdapterTest
 {
     private static final String INDIA_CENSUS_CSV_FILE_PATH = "./src/test/resources/IndiaStateCensusData.csv";
     private static final String INDIA_STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
     private static final String WRONG_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode12.cst";
     private static final String WRONG_STATE_CSV_FILE_TYPE="/home/admin1/Desktop/CensusAnalyser/src/test/resources/WrongFile.csv";
-
-
     IndiaCensusAdapter indianCensusAdapter = new IndiaCensusAdapter();
 
     @Test

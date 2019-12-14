@@ -16,6 +16,7 @@ public class CensusAnalyserTest
     private static final String WRONG_STATE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
     private static final String WRONG_STATE_CSV_FILE_TYPE="/home/admin1/Desktop/CensusAnalyser/src/test/resources/WrongFile.csv";
     private static final String US_CENSUS_FILE_PATH = "/home/admin1/Desktop/CensusAnalyser/src/test/resources/USCensusData.csv";
+    private static final String EMPTY_FILE_PATH="/home/admin1/Desktop/CensusAnalyser/src/test/resources/WrongFile.csv";
 
     CensusAnalyser censusAnalyser=new CensusAnalyser();
 
@@ -175,7 +176,6 @@ public class CensusAnalyserTest
         }
         catch (CSVBuilderException e)
         {
-
         }
     }
 
@@ -191,7 +191,6 @@ public class CensusAnalyserTest
         }
         catch (CSVBuilderException e)
         {
-
         }
     }
 
@@ -207,7 +206,6 @@ public class CensusAnalyserTest
         }
         catch (CSVBuilderException e)
         {
-
         }
     }
 
@@ -254,7 +252,6 @@ public class CensusAnalyserTest
             {
             }
     }
-
 
     @Test
     public void givenUSCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult()
@@ -304,5 +301,18 @@ public class CensusAnalyserTest
         }
     }
 
-
+    @Test
+    public void givenUSCensusData_WhenEmptyFile_ShouldThrowException()
+    {
+        try
+        {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            censusAnalyser.loadCensusData(CensusAnalyser.Country.US,EMPTY_FILE_PATH);
+        }
+        catch (CSVBuilderException e)
+        {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.UNABLE_TO_PARSE, e.type);
+        }
+    }
 }

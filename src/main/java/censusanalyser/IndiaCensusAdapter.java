@@ -42,5 +42,4 @@ public class IndiaCensusAdapter extends CensusAdapter
         this.loadIndiaStateCode(censusStateMap,csvFilePath[1]);
         return censusStateMap;
     }
-
 }

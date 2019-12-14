@@ -1,5 +1,4 @@
 package censusanalyser;
-
 import com.bridgelabz.CSVBuilderException;
 import com.bridgelabz.CSVBuilderFactory;
 import com.bridgelabz.ICVBuilder;
@@ -11,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.StreamSupport;
-
 public class CensusLoader
 {
     Map<String, CensusDAO> censusStateMap =new HashedMap();

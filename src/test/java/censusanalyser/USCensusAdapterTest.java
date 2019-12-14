@@ -1,16 +1,12 @@
 package censusanalyser;
-
 import com.bridgelabz.CSVBuilderException;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.Map;
-
 public class USCensusAdapterTest
 {
     private static final String US_CENSUS_DATA_CSV_FILE_PATH = "./src/test/resources/USCensusData.csv";
     private static final String INCORRECT_US_CENSUS_DATA_CSV_FILE_PATH = "./src/test/resources/USCensusData123.csv";
-
     USCensusAdapter usCensusAdapter = new USCensusAdapter();
 
     @Test
